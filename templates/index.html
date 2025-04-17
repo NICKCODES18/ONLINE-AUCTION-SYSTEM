@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ongoing Auctions</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #EAF2F8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 25px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #2C3E50;
+            margin-bottom: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: 600;
+            margin-right: 15px;
+        }
+
+        a:hover {
+            color: #1c5980;
+        }
+
+        h3 {
+            text-align: center;
+            color: #1F618D;
+            margin: 30px 0 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            background: #F8F9F9;
+            border: 1px solid #D5D8DC;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        li strong {
+            font-size: 1.2em;
+            color: #34495E;
+        }
+
+        li a {
+            display: inline-block;
+            margin-top: 10px;
+            background-color: #2ECC71;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        li a:hover {
+            background-color: #27AE60;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            li {
+                padding: 15px;
+            }
+
+            li a {
+                width: 100%;
+                text-align: center;
+                margin-top: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome {{ session.username if session.username else 'Guest' }}</h2>
+        
+        {% if session.username %}
+            <a href="/logout">Logout</a> 
+            <a href="/create_auction">Create Auction</a>
+        {% else %}
+            <a href="/login">Login</a> 
+            <a href="/register">Register</a>
+        {% endif %}
+
+        <h3>Ongoing Auctions</h3>
+        <ul>
+            {% for auction in auctions %}
+            <li>
+                <strong>{{ auction.item_name }}</strong><br>
+                Starting Price: ₹{{ auction.start_price }}<br>
+                Current Highest Bid: ₹{{ auction.highest_bid }}<br>
+                Ends At: {{ auction.end_time }}<br>
+                <a href="/auction/{{ auction.auction_id }}">View / Bid</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
